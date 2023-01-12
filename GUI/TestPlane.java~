@@ -1,0 +1,71 @@
+import junit.framework.TestCase;
+import javax.swing.JFrame;
+
+//Testing the plane class.
+public class TestPlane extends TestCase{
+  
+  //Testing the toString() method of plane.
+  public void testToString(){
+    Vector v = new Vector(1,2,3);
+    Point a = new Point(2,3,4);
+    Plane p = new Plane(a, v);
+    assertSame("1.0x + 2.0y + 3.0z - 20", p.toString());
+  }
+  
+  //Testing the equals() method of plane.
+  public void testEquals(){
+    Vector v = new Vector(1,2,3);
+    Point a = new Point(2,3,4);
+    Plane p = new Plane(a, v);
+    Vector w = new Vector(1,2,3);
+    Point b = new Point(1,3,4);
+    Plane p1 = new Plane(a, w);
+    Vector x = new Vector(1,2,5);
+    Plane p2 = new Plane(b, x);
+    Plane p3 = new Plane(a, x);
+    JFrame c = new JFrame();
+    assertTrue("Same normal vector, point and same object so should be equal", p.equals(p1));
+    assertFalse("If the planes have different normal vectors, they are not equal", p1.equals(p2));
+    assertFalse("Different objects should not be equal", c.equals(p2));
+    assertFalse("If the planes start a different point, they are not equal", p3.equals(p2));
+  }
+  
+  // Testing the contains() method of Plane.
+  public void testCointains(){
+    Vector v = new Vector(1,2,3);
+    Point a = new Point(2,3,4);
+    Plane p = new Plane(a, v);
+    Point zero = new Point(0,0,0);
+    assertTrue("Should contain a since a's x,y and z coordinates times the vectors x,y and z coordinates equal d.", p.contains(a));
+    assertFalse("Should not contain the origin as the origin times the vector gives zero but d is not zero", p.contains(zero));
+  }
+  
+  // Testing the isParallel() method of Plane.
+  public void testIsParallel(){
+    Vector v = new Vector(1,2,3);
+    Point a = new Point(2,3,4);
+    Plane p = new Plane(a, v);
+    Point b = new Point(2,3,5);
+    Plane p1 = new Plane(b, v);
+    Vector w = new Vector(1,4,5);
+    Plane p2 = new Plane(a,w);
+    Point c = new Point(2,3,4);
+    Plane p3 = new Plane(c, v);  
+    assertTrue("Should return true since they start from different points but have parallel vectors", Plane.isParallel(p, p1));
+    assertFalse("Should return false since the vectors aren't parallel", Plane.isParallel(p, p2));
+    assertFalse("Since they are the same point, this should return false", Plane.isParallel(p, p3));
+  }
+  
+  // Testing the isOrthogonal() method of Plane.
+  public void testIsOrthogonal(){
+    Vector v = new Vector(1,2,3);
+    Point a = new Point(2,3,4);
+    Plane p = new Plane(a, v);
+    Vector w = new Vector(1,-1,1);
+    Plane p1 = new Plane(a,w);
+    Vector u = new Vector(1,2,3);
+    Plane p2 = new Plane(a,u);
+    assertTrue("Should return true since they are orthogonal", Plane.isOrthogonal(p, p1));
+    assertFalse("Should return false since they are not orthogonal", Plane.isOrthogonal(p, p2));
+  }
+}

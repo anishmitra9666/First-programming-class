@@ -1,0 +1,170 @@
+import java.util.NoSuchElementException;
+import java.util.*;
+
+/**
+ * A class to represent a linked list of nodes.
+ */
+public class LinkedList<T> implements Iterable<T> {
+  /** the first node of the list, or null if the list is empty */
+  private LLNode<T> front;
+  
+  /**
+   * Creates an initially empty linked list
+   */
+  public LinkedList() {
+    front = null;
+  }
+  
+  /**
+   * Returns the first node.
+   */
+  protected LLNode<T> getFront() {
+    return front;
+  }
+  
+  /**
+   * Changes the first node.
+   * @param node  the first node of the new linked list
+   */
+  protected void setFront(LLNode<T> node) {
+    this.front = node;
+  }
+  
+  public ArrayList toArrayList(){
+    LLNode<T> nodeptr = getFront();
+    ArrayList<T> list = new ArrayList<T>();
+    for (int i = 0; i < length(); i++){
+      list.add(i, nodeptr.getElement());
+      nodeptr = nodeptr.getNext();
+    }
+    return list;
+  }
+  
+  /**
+   * Add an element to the front of the linked list
+   */
+  public void addToFront(T element) {
+    setFront(new LLNode<T>(element, getFront()));
+  }
+  
+  /**
+   * Return whether the list is empty
+   * @return true if the list is empty
+   */
+  public boolean isEmpty() {
+    return (getFront() == null);
+  }
+  
+  /**
+   * Returns the length of the linked list
+   * @return the number of nodes in the list
+   */
+  public int length() {
+    int count = 0;                      // counts number of nodes seen
+    LLNode<T> nodeptr = getFront();
+    while (nodeptr != null) {
+      count++;
+      nodeptr = nodeptr.getNext();
+    }
+    return count;
+  }
+  
+  /**
+   * Remove and return the element at the front of the list
+   * @return the first element of the list
+   * @throws NoSuchElementException if there is no such element
+   */
+  public T removeFromFront() {
+    if (isEmpty())
+      throw new NoSuchElementException();
+    else {
+      T save = getFront().getElement();
+      setFront(getFront().getNext());
+      return save;
+    }
+  }
+  
+  /**
+   * Add an element to the very end of the list
+   * @param element the element to add to the end of the list
+   */
+  public void addToEnd(T element) {
+    if (isEmpty()) 
+      addToFront(element);
+    else {
+      LLNode<T> nodeptr = getFront();
+      // the loop will end with nodeptr looking at the last node in list
+      while (nodeptr.getNext() != null)
+        nodeptr = nodeptr.getNext();
+      nodeptr.setNext(new LLNode<T>(element, null));
+    }
+  }
+  
+  public class ThisListIterator implements LLIterator<T>{
+    
+    private boolean hasstarted;
+    
+    /** points to the current node of the iteration */
+    private LLNode<T> nodeptr;
+    
+    /** Create an iterator for the list starting at the inputted node
+      * @param front  the first node for the iteration
+      */
+    public ThisListIterator(LLNode<T> front) {
+      nodeptr = front;
+    }
+    
+    /**
+     * Returns true if there are more nodes to run through
+     * @return true if there are still more values in the iteration
+     */
+    public boolean hasNext() {
+      return nodeptr != null;
+    }
+    
+    @Override
+    public void addBefore(T element){
+      if (isEmpty() || hasstarted == false){
+        throw new NoSuchElementException();
+      }
+      else{
+        nodeptr.setNext(new LLNode<T>(element, nodeptr)); 
+        hasstarted = false;
+      }
+    }
+    
+    @Override
+    public void addAfter(T element){
+      if (isEmpty() || hasstarted == false){
+        addToFront(element);
+      }
+      else{
+        nodeptr.insertAfter(element);
+      }
+    }
+    
+    /**
+     * Returns the next value stored in the linked list
+     * @return the next value of the linked list
+     */
+    public T next() {
+      T save = nodeptr.getElement();
+      nodeptr = nodeptr.getNext();
+      boolean hasstarted = true; 
+      return save;
+    }
+    
+    /** Not implemented */
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  /**
+   * Required by the Iterable interface. 
+   * @return an LLiterator for the list
+   */
+  public LLIterator<T> iterator() {
+    return new ThisListIterator(getFront());
+  } 
+}

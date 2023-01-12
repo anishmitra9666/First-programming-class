@@ -1,0 +1,27 @@
+import junit.framework.TestCase;
+
+public class TestLinkedList extends TestCase{
+  
+  public void testToArrayList(){
+    LinkedList<WordData> llint = new LinkedList<WordData>();
+    WordData[] a = new WordData[]{new WordData("A"), new WordData("B")};
+    assertTrue(llint.toArrayList().contains(a));
+  }
+  
+  public void testAddAfter(){
+    LinkedList<WordData> llint = new LinkedList<WordData>();
+    WordData abc = new WordData("A");
+    WordData ac = new WordData("B");
+    llint.addToFront(abc);
+    assertTrue((llint.addAfter(ac)).toArrayList().contains(abc));
+  }
+  
+  public void testAddBefore(){
+    LinkedList<WordData> llint = new LinkedList<WordData>();
+    WordData ab = new WordData("B");
+    WordData abc = new WordData("A");
+    llint.addToFront(ab);
+    assertTrue((llint.addAfter(abc)).toArrayList().contains(ab));
+  }
+}
+

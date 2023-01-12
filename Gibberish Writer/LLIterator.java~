@@ -1,0 +1,6 @@
+import java.util.*; 
+  
+public interface LLIterator<E> extends Iterator<E>{
+  void addAfter(E element);
+  void addBefore(E element);
+}

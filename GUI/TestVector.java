@@ -1,0 +1,90 @@
+import junit.framework.TestCase;
+import javax.swing.JFrame;
+
+//Testing the Vector class
+public class Vector extends TestCase{
+  
+  //Testing the toString() method of vector.
+  public void testToString(){
+    Vector v = new Vector(1,2,3);
+    assertTrue("<1,2,3>" == v.toString());
+  }
+  
+  //Testing the equals() method of vector
+  public void testEquals(){
+    Vector v = new Vector(1,2,3);
+    Vector w = new Vector(1,2,3);
+    Vector u = new Vector(2,3,5);
+    JFrame c = new JFrame();
+    assertTrue("Return true if same line.", v.equals(w));
+    assertFalse("Should return false when testing two different lines as well", u.equals(w));
+    assertFalse("Should return false when testing two different objects", c.equals(w));
+  }
+  
+  //Testing the magnitude() method of vector.
+  public void testMagnitude(){
+    Vector v = new Vector(3,4,12);
+    assertEquals("Returns the the magnitude thirteen because the square root of 3,4 and 12 squared is 13", 13, v.magnitude(), 0);
+  }
+  
+  //Testing the unitvector() method of vector.
+  public void testUnitVector(){
+    Vector v = new Vector(3,4,12);
+    Vector w = new Vector(3/13, 4/13, 12/13);
+    assertSame("Returns the vector divided by its magnitude", w, v.unitVector());
+  }
+  
+  //Testing the sum() method of vector.
+  public void testSum(){
+    Vector v = new Vector(3,4,12);
+    Vector w = new Vector(13, 4, 1);
+    Vector u = new Vector(16,8,13);
+    assertSame("Adding the individuals components of v & w such as 13+3=16 should give u.", u, Vector.sum(v, w));
+  }
+  
+  // Testing the scale() method of vector. 
+  public void testScale(){
+    Vector v = new Vector(3,4,12);
+    Vector w = new Vector(6,8,24);
+    assertSame("Multiplying 3 times 2 should give 6 and so on till we get w", w, Vector.scale(v, 2));
+  }
+  
+  //Testing the dotProduct() method of vector.
+  public void testDotProduct(){
+    Vector v = new Vector(1,2,3);
+    Vector w = new Vector(3,4,6);
+    assertEquals("Performing the dot product on these two vectors should give 29", 29, Vector.dotProduct(v,w), 0);
+  }
+  
+  //Testing the crossProduct() method of vector.
+  public void testCrossProduct(){
+    Vector v = new Vector(1,2,3);
+    Vector w = new Vector(3,4,6);
+    Vector answer = new Vector(0,3,-2);
+    assertSame("Performing the cross product gives us the vector represented by answer", answer, Vector.crossProduct(v,w));
+  }
+  
+  // Testing the angle() method of vector.
+  public void testAngle(){
+    Vector v = new Vector(0,0,-1);
+    Vector w = new Vector(0,0,2);
+    assertEquals("The angle between these two vectors is pi.", Math.PI, Vector.angle(w,v));
+  }
+  
+  //Testing the is orthogonal method of vector.
+  public void testIsOrthogonal(){
+    Vector v = new Vector(1,-1,0);
+    Vector w = new Vector(111,111,2);
+    Vector z = new Vector(1,2,3);
+    assertTrue("Sees if the two vectors have a dot product of zero which they do so they are orthogonal", Vector.isOrthogonal(v,w));
+    assertFalse("Since the vectors do not have a dot product of zero, they aren't orthogonal", Vector.isOrthogonal(v,z));
+  }
+  
+  public void testIsParallel(){
+    Vector v = new Vector(0,1,2);
+    Vector w = new Vector(0,1,2);
+    Vector z = new Vector(1,2,3);
+    assertTrue("The vectors are parallel so the isParallel method should be zero.", Vector.isParallel(v,w));
+    assertFalse("The vectors aren't parallel so this should return false", Vector.isParallel(v,z));
+  }
+}

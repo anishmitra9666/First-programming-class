@@ -1,0 +1,67 @@
+import junit.framework.TestCase;
+import javax.swing.JFrame;
+
+//Testing the Line2D class.
+public class TestLine2D extends TestCase{
+  
+  //Testing the toString() method of Line2D
+  public void testToString(){
+    Point2D a = new Point2D(2,3);
+    Point2D b = new Point2D(3,4);
+    Point2D c = new Point2D(2,1);
+    Point2D d = new Point2D(0,3);
+    Line2D line1 = new Line2D(a,b);
+    Line2D line2 = new Line2D(a,c);
+    Line2D line3 = new Line2D(a,d);
+    assertTrue("x and y have different values across the two points", "\"y = 1.0x + 1\"" == line1.toString());
+    assertTrue("Two x's have the same value.", "\"x = 2\"" == line2.toString());
+    assertTrue("Two y\'s have the same value", "\"y = 3\"" == line3.toString());
+  }
+  
+  // Testing the equals() method of Line2D.
+  public void testEquals(){
+    Point2D a = new Point2D(2,3);
+    Point2D b = new Point2D(2,4);
+    JFrame c = new JFrame();
+    Point2D d = new Point2D(3,5);
+    Point2D e = new Point2D(4,7);
+    Line2D line1 = new Line2D(a,b);
+    Line2D line2 = new Line2D(a,e);
+    Line2D line3 = new Line2D(a,d);
+    assertTrue("Same line", line3.equals(line2));
+    assertFalse("Two different lines", line3.equals(line1));
+    assertFalse("Two different objects should not be the same", line1.equals(c));
+  }
+  
+  // Testing the isParallel() method of Line2D.
+  public void testIsParallel(){
+    Point2D a = new Point2D(2,3);
+    Point2D b = new Point2D(2,4);
+    Point2D c = new Point2D(2,5);
+    Point2D d = new Point2D(4,3);
+    Point2D e = new Point2D(4,6);
+    Line2D line1 = new Line2D(a,b);
+    Line2D line2 = new Line2D(d,e);
+    Line2D line3 = new Line2D(c,d);
+    Line2D line4 = new Line2D(a,c);
+    assertTrue("Parallel if they are different lines with the same slope", Line2D.isParallel(line1, line2));
+    assertFalse("Not parallel if the lines have different slopes", Line2D.isParallel(line3, line2));
+    assertFalse("Not parallel if they are the same line", Line2D.isParallel(line1, line4));
+  }
+  
+  // Testing the intersection() method of Line2D.
+  public void testIntersection(){
+    Point2D a = new Point2D(2,3);
+    Point2D b = new Point2D(2,4);
+    Point2D c = new Point2D(2,5);
+    Point2D d = new Point2D(4,3);
+    Point2D e = new Point2D(4,6);
+    Line2D line1 = new Line2D(a,b);
+    Line2D line2 = new Line2D(d,e);
+    Line2D line3 = new Line2D(c,d);
+    Line2D line4 = new Line2D(a,c);
+    assertNull("Returns null if there is no intersection", Line2D.intersection(line1, line2));
+    assertNull("Returns null if same line", Line2D.intersection(line1, line4));
+    assertSame("Returns the point the different lines used to construct themselves", Line2D.intersection(line3, line2), d);
+  }
+}

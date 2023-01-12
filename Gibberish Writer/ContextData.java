@@ -1,0 +1,60 @@
+import java.util.*;
+
+public class ContextData implements Comparable<ContextData>{
+  
+  // Stores the context
+  private Context contextdatacontext;
+  
+  // Stores the number of times the context has appeared in the program.
+  private int occurences;
+  
+  // Stores a linked list of WordData objects
+  private LinkedList<WordData> words;
+
+  public ContextData(Context a){
+    this.contextdatacontext = a;
+    this.occurences = 0;
+    this.words = new LinkedList<WordData>();
+  }
+  
+  public Context getContext(){
+    return contextdatacontext;
+  }
+  
+  public int numOccurences(){
+    return occurences;
+  }
+  
+  public int compareTo(ContextData anothercontext){
+    int comparison = this.compareTo(anothercontext);
+    return comparison;
+  }
+  
+  public void addFollowingWord(String word){
+    WordData wordataword = new WordData(word);
+    LLIterator<WordData> iteratorforwords = words.iterator();
+    if (words.isEmpty()){
+      words.addToFront(wordataword);
+    }
+    while (iteratorforwords.hasNext()){
+      WordData newordataword = iteratorforwords.next();
+      if (word.compareTo(newordataword.getWord()) == 0){
+        newordataword.incrementCount();
+      }
+      else if (word.compareTo(newordataword.getWord()) < 0){
+        iteratorforwords.addBefore(newordataword);
+      }
+      else
+        iteratorforwords.addAfter(newordataword);
+    }
+  }
+  
+  public String getFollowingWord(int place){
+    if (place > 0 && place < words.length()){
+      ArrayList<WordData> arraylist1 = words.toArrayList();
+      return arraylist1.get(place).getWord();
+    }
+    else
+      throw new IndexOutOfBoundsException();
+  }
+}

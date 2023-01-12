@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class GibberishWriter implements Iterator<GibberishWriter>{
+  
+  private ArrayList<ContextData> contextDataArrays;
+  
+  private int contextSize;
+  
+  public GibberishWriter(int contextSize, ArrayList<ContextData> contextDataArrays){
+    this.contextSize = contextSize;
+    this.contextDataArrays = new ArrayList<ContextData>();
+  }
+  
+  public int getContextSize(){
+    return contextSize;
+  }
+  
+  public ContextData getContextData(int index){
+    return contextDataArrays.get(index);
+  }
+  
+  public static ContextData addContextData(Context conte, LinkedList<ContextData> linkedlistcd){
+    LLIterator<ContextData> cditerator = linkedlistcd.iterator();
+    ContextData cia = new ContextData(conte);
+    while (cditerator.hasNext()){
+      ContextData newcia = cditerator.next();
+      if ((newcia.getContext()).compareTo(conte) == 0)
+        return newcia;
+      else if (conte.compareTo(newcia.getContext()) < 0){
+        cditerator.addBefore(newcia);
+        return newcia;
+      }
+      else{
+        cditerator.addAfter(newcia);
+        return newcia;
+      }
+    }
+    linkedlistcd.addToFront(cia);
+    return cia;
+  }
+  
+  public boolean hasNext(){
+    return contextDataArrays.iterator().hasNext();
+  }
+  
+  public GibberishWriter next(){ 
+  }
+}

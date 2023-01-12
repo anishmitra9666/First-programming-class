@@ -1,0 +1,48 @@
+import junit.framework.TestCase;
+
+public class TestGibberishWriter extends TestCase{
+  
+  public void testAddFollowingWord(){
+    Context context = new Context(new String[]{"A", "B", "C"});
+    ContextData contextData = new ContextData(context);
+    contextData.addFollowingWord("M");
+    contextData.addFollowingWord("M");
+    contextData.addFollowingWord("N");
+    contextData.addFollowingWord("D");
+    WordData m = new WordData("M");
+    assertTrue(contextData.getContext().getWord(2) == "M");
+    assertTrue(contextData.getContext().getWord(3) == "M");
+    assertTrue(contextData.getContext().getWord(4) == "N");
+    assertTrue(contextData.getContext().getWord(1) == "D");
+    assertTrue(m.getCount() == 2);
+  }
+  
+  public void testGetFollowingWord(){
+    Context context = new Context(new String[]{"A", "B", "C"});
+    ContextData contextData = new ContextData(context);
+    contextData.addFollowingWord("M");
+    contextData.addFollowingWord("M");
+    contextData.addFollowingWord("N");
+    contextData.addFollowingWord("D");
+    assertTrue(contextData.getFollowingWord(2) == "M");
+    assertTrue(contextData.getFollowingWord(3) == "M");
+    assertTrue(contextData.getFollowingWord(4) == "N");
+    assertTrue(contextData.getFollowingWord(1) == "D");
+  }
+  
+  public void testAddContextData(){
+    Context context = new Context(new String[]{"C"});
+    Context contex = new Context(new String[]{"B"});
+    Context conte = new Context(new String[]{"A"});
+    ContextData conteData = new ContextData(conte);
+    ContextData contextData = new ContextData(context);
+    ContextData contexData = new ContextData(contex);
+    LinkedList<ContextData> llcd = new LinkedList<ContextData>();
+    llcd.addToFront(contextData);
+    LLIterator<ContextData> llIterator = llcd.iterator();
+    llIterator.addAfter(conteData);
+    assertTrue(GibberishWriter.addContextData(conte, llcd) == conteData);
+    assertTrue(GibberishWriter.addContextData(contex, llcd) == contexData);
+    assertTrue(GibberishWriter.addContextData(contex, llcd) == llcd.toArrayList().get(2));
+  }
+}
